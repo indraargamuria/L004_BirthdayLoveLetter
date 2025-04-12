@@ -1,95 +1,71 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
 
-export default function Home() {
+import './globals.css'
+import { useState, useEffect } from 'react'
+import Quest from './components/Quest'
+import LoveLetter from './components/LoveLetter'
+import Lottie from 'lottie-react'
+import heartAnimation from '../lottie/heartAnimation.json'
+import dynamic from 'next/dynamic'
+
+// Gunakan dynamic import untuk Lottie agar hanya diproses di sisi klien
+const LottieClientOnly = dynamic(() => import('lottie-react'), { ssr: false })
+
+const HomePage = () => {
+  const [showPageAwal, setShowPageAwal] = useState(true)
+  const [showQuest, setShowQuest] = useState(false)
+  const [questCompleted, setQuestCompleted] = useState(false)
+  const [isClient, setIsClient] = useState(false)
+
+  const handleStartAdventure = () => {
+    setShowPageAwal(false)
+    setShowQuest(true)
+  }
+
+  const handleQuestComplete = () => {
+    setQuestCompleted(true)
+    setShowQuest(false)
+  }
+
+  useEffect(() => {
+    // Pastikan ini hanya dijalankan di sisi klien
+    setIsClient(true)
+  }, [])
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-pink-400 to-purple-500 text-white p-6">
+      {/* Show only Page Awal */}
+      {showPageAwal && (
+        <>
+          <div className="mb-8">
+            {isClient && (
+              <LottieClientOnly animationData={heartAnimation} loop={true} autoplay={true} />
+            )}
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">Happy birthday istriku!</h1>
+          <p className="text-lg md:text-xl text-center mb-8">
+            Suamimu ini punya sedikit kejutan 💖
+          </p>
+          <button
+            onClick={handleStartAdventure}
+            className="bg-white text-pink-500 px-6 py-3 rounded-full text-lg font-semibold hover:bg-pink-100 mb-8"
+          >
+            Yuk mulai
+          </button>
+        </>
+      )}
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+      {/* Show Quest after "Start the Adventure" clicked */}
+      {showQuest && <Quest onComplete={handleQuestComplete} />}
+
+      {/* Show Love Letter after completing quest */}
+      {questCompleted && (
+        <div className="transition-opacity opacity-100 duration-1000 ease-in-out">
+          <LoveLetter />
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      )}
     </div>
-  );
+  )
 }
+
+export default HomePage
