@@ -4,7 +4,6 @@ import './globals.css'
 import { useState, useEffect } from 'react'
 import Quest from './components/Quest'
 import LoveLetter from './components/LoveLetter'
-import Lottie from 'lottie-react'
 import heartAnimation from '../lottie/heartAnimation.json'
 import dynamic from 'next/dynamic'
 

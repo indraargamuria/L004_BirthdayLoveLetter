@@ -9,7 +9,6 @@ import dynamic from 'next/dynamic'
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false })
 
 const Quest = ({ onComplete }: { onComplete: () => void }) => {
-  const [answered, setAnswered] = useState(false)
   const [answer, setAnswer] = useState('')
   const [showWrongAnimation, setShowWrongAnimation] = useState(false)
   const [buttonClass, setButtonClass] = useState('bg-pink-500') // Class button
@@ -49,42 +48,38 @@ const Quest = ({ onComplete }: { onComplete: () => void }) => {
           
         </div>
       )}
-      {!answered ? (
-        <div className="flex flex-col items-center justify-center w-full">
-          <div className="flex flex-col items-center mb-4 w-full">
-            {showWrongAnimation && (
-              <div className="mt-2 w-16"> {/* Memberikan jarak antara input dan animasi */}
-                <Lottie animationData={wrongAnimation} loop={false} autoplay={true} />
-              </div>
-            )}
-          </div>
-
-          
-          {/* Menampilkan sisa kesempatan */}
-          {attempts < maxAttempts && (
-            <div>
-              <input
-                type="text"
-                className="p-3 border border-gray-300 rounded-md w-full text-gray-700"
-                placeholder="Your answer..."
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
-              />
-              <button
-                onClick={handleAnswer}
-                className={`text-white mt-6 px-6 py-3 rounded-full text-lg font-semibold hover:bg-pink-600 ${buttonClass}`}
-              >
-                Jawab
-              </button>
-              <p className="mt-4 text-lg text-gray-700">
-                Tinggal {maxAttempts - attempts} kesempatan lagi!
-              </p>
+      <div className="flex flex-col items-center justify-center w-full">
+        <div className="flex flex-col items-center mb-4 w-full">
+          {showWrongAnimation && (
+            <div className="mt-2 w-16"> {/* Memberikan jarak antara input dan animasi */}
+              <Lottie animationData={wrongAnimation} loop={false} autoplay={true} />
             </div>
           )}
         </div>
-      ) : (
-        <p className="text-sm text-green-600">Unused</p>
-      )}
+
+        
+        {/* Menampilkan sisa kesempatan */}
+        {attempts < maxAttempts && (
+          <div>
+            <input
+              type="text"
+              className="p-3 border border-gray-300 rounded-md w-full text-gray-700"
+              placeholder="Your answer..."
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+            />
+            <button
+              onClick={handleAnswer}
+              className={`text-white mt-6 px-6 py-3 rounded-full text-lg font-semibold hover:bg-pink-600 ${buttonClass}`}
+            >
+              Jawab
+            </button>
+            <p className="mt-4 text-lg text-gray-700">
+              Tinggal {maxAttempts - attempts} kesempatan lagi!
+            </p>
+          </div>
+        )}
+      </div>
 
       {showContinueButton && (
         
