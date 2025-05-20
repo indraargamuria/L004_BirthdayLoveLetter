@@ -5,7 +5,7 @@ const LoveLetter = () => {
         🎂 Selamat Ulang Tahun yang ke-27 🎉
       </h2>
       <p className="text-lg text-gray-700 mb-6 whitespace-pre-line leading-relaxed">
-        💌 Huy Istriku tercinta,<br />
+        💌 Huy Istriku tercinta, <br />
         Selamat ulang tahun yang ke-27 tahun 🎈<br />
         Website yang sangat simple ini adalah salah satu kado dariku untukmu.<br />
         Mungkin terlihat biasa saja, tapi... aku menaruh hatiku di setiap barisnya ❤️<br />
